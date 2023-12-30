@@ -71,6 +71,11 @@ function addLeadersOnLoad() {
 function addLeader() {
     const maxLeaders = 10;
 
+    //console.log('addLeader called');
+
+    // Can't do a duplicate check without breaking this function
+    // The initial leaders on the page aren't checked for duplicates against the newly added ones.
+
     // Check if the maximum number of leaders has been reached
     if (document.querySelectorAll('.leader').length >= maxLeaders) {
         alert('Maximum number of leaders reached (10).');
@@ -103,6 +108,8 @@ function addLeader() {
         leaderElement.addEventListener('mouseout', function () {
             tooltipElement.style.display = 'none';
         });
+        //console.log('addLeader ended');
+
     });
 }
 
@@ -142,11 +149,11 @@ function swapLeader() {
 
     // Check if there are at least two leaders to swap
     if (leaderElements.length < 2) {
-        alert('Not enough leaders to swap.');
+        alert('At least 2 required to swap.');
         return;
     }
 
-    // Get the first and last leader elements
+    // Get the first and last leaders
     const firstLeader = leaderElements[0];
     const lastLeader = leaderElements[leaderElements.length - 1];
 
@@ -154,4 +161,72 @@ function swapLeader() {
     const container = document.getElementById('leaders-container');
     container.insertBefore(lastLeader, leaderElements[0].nextSibling);
     container.appendChild(firstLeader);
+
+    updateLeaderList();
 }
+
+// Update the list after the swap
+function updateLeaderList() {
+    const leadersList = document.getElementById('leaders-list');
+    leadersList.innerHTML = '';
+
+    const leaderElements = document.querySelectorAll('.leader');
+    leaderElements.forEach((leaderElement) => {
+        const imgElement = leaderElement.querySelector('img');
+        const leaderName = imgElement.alt;
+
+        const listItem = document.createElement('li');
+        listItem.textContent = leaderName;
+        leadersList.appendChild(listItem);
+    });
+}
+
+function removeLeader() {
+    const leaderElements = document.querySelectorAll('.leader');
+
+    // Check if there are any leaders to delete
+    if (leaderElements.length === 0) {
+        alert('No leaders to remove.');
+        return;
+    }
+
+    // Remove the fisrt leader
+    const container = document.getElementById('leaders-container');
+    container.removeChild(leaderElements[0]);
+
+    // Update the list
+    updateLeaderList();
+
+    // Disable deletion if no leaders are left
+    const removeButton = document.getElementById('remove-button');
+    removeButton.disabled = leaderElements.length === 0;
+}
+
+function shuffleLeaders() {
+    const leaderElements = document.querySelectorAll('.leader');
+    const container = document.getElementById('leaders-container');
+
+    // Check if there are at least two leaders to shuffle
+    if (leaderElements.length < 2) {
+        alert('At least 2 leaders required.');
+        return;
+    }
+
+    // Create an array of leader elements
+    const leaderArray = Array.from(leaderElements);
+
+    // shuffle the array
+    leaderArray.sort(() => Math.random() - 0.5);
+
+    // Clear the current container
+    container.innerHTML = '';
+
+    // Apend the shuffled leaders to the container
+    leaderArray.forEach((leader) => {
+        container.appendChild(leader);
+    });
+
+    // Update the list
+    updateLeaderList();
+}
+
