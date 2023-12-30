@@ -67,6 +67,35 @@ function addLeadersOnLoad() {
         });
     });
 }
+addLeadersOnLoad();
+
+
+function addLeadersToPage(selectedLeaders) {
+    const leadersContainer = document.getElementById('leaders-container');
+    const leadersList = document.getElementById('leaders-list');
+
+    // Add the selected leaders to the page
+    for (const leaderName in selectedLeaders) {
+        const leaderData = selectedLeaders[leaderName];
+
+        const leaderElement = document.createElement('div');
+        leaderElement.className = 'leader';
+
+        const imgElement = document.createElement('img');
+        imgElement.src = leaderData.image;
+        imgElement.alt = leaderName;
+
+        leaderElement.appendChild(imgElement);
+
+        // Add to container
+        leadersContainer.appendChild(leaderElement);
+
+        // Add the leader name to the list
+        const listItem = document.createElement('li');
+        listItem.textContent = leaderName;
+        leadersList.appendChild(listItem);
+    }
+}
 
 function addLeader() {
     const maxLeaders = 10;
@@ -74,7 +103,7 @@ function addLeader() {
     //console.log('addLeader called');
 
     // Can't do a duplicate check without breaking this function
-    // The initial leaders on the page aren't checked for duplicates against the newly added ones.
+    // The initial leaders on the page aren't checked for duplicates against the newly added ones and I can't figure it out.
 
     // Check if the maximum number of leaders has been reached
     if (document.querySelectorAll('.leader').length >= maxLeaders) {
@@ -112,37 +141,6 @@ function addLeader() {
 
     });
 }
-
-
-
-function addLeadersToPage(selectedLeaders) {
-    const leadersContainer = document.getElementById('leaders-container');
-    const leadersList = document.getElementById('leaders-list');
-
-    // Add the selected leaders to the page
-    for (const leaderName in selectedLeaders) {
-        const leaderData = selectedLeaders[leaderName];
-
-        const leaderElement = document.createElement('div');
-        leaderElement.className = 'leader';
-
-        const imgElement = document.createElement('img');
-        imgElement.src = leaderData.image;
-        imgElement.alt = leaderName;
-
-        leaderElement.appendChild(imgElement);
-
-        // Add to container
-        leadersContainer.appendChild(leaderElement);
-
-        // Add the leader name to the list
-        const listItem = document.createElement('li');
-        listItem.textContent = leaderName;
-        leadersList.appendChild(listItem);
-    }
-}
-
-addLeadersOnLoad();
 
 function swapLeader() {
     const leaderElements = document.querySelectorAll('.leader');
@@ -184,7 +182,7 @@ function updateLeaderList() {
 function removeLeader() {
     const leaderElements = document.querySelectorAll('.leader');
 
-    // Check if there are any leaders to delete
+    // Check if there is enough leaders to delete
     if (leaderElements.length === 0) {
         alert('No leaders to remove.');
         return;
@@ -216,15 +214,19 @@ function shuffleLeaders() {
     const leaderArray = Array.from(leaderElements);
 
     // shuffle the array
-    leaderArray.sort(() => Math.random() - 0.5);
+    leaderArray.sort(function () {
+        return Math.random() - 0.5;
+    });
+
 
     // Clear the current container
     container.innerHTML = '';
 
     // Apend the shuffled leaders to the container
-    leaderArray.forEach((leader) => {
+    leaderArray.forEach(function (leader) {
         container.appendChild(leader);
     });
+
 
     // Update the list
     updateLeaderList();

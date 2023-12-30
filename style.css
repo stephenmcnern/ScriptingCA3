@@ -10,14 +10,7 @@ body {
     flex-wrap: wrap;
     justify-content: center;
     align-items: flex-start;
-    margin-top: 20px;
-}
-
-.leader {
-    width: 150px;
-    height: 150px;
-    margin: 10px;
-    overflow: hidden;
+    margin-top: 15px;
 }
 
 .leader img {
@@ -25,6 +18,14 @@ body {
     height: 100%;
     object-fit: cover;
 }
+
+.leader {
+    width: 150px;
+    height: 150px;
+    margin: 10px;
+    overflow: auto;
+}
+
 
 #leaders-buttons {
     display: flex;
@@ -34,15 +35,15 @@ body {
 }
 
 #leaders-list {
-    list-style-type: none;
+    list-style-type: decimal;
     text-align: left;
-    margin-top: 20px;
+    margin-top: 25px;
 }
 
 .tooltip {
     display: none;
     position: absolute;
-    background-color: #fff;
+    background-color: white;
     padding: 5px;
-    border: 1px solid #ccc;
+    border: 1px solid white;
 }
